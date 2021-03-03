@@ -15,3 +15,5 @@ CREATE TABLE equipo(
 	modify_date TIMESTAMP NOT NULL,
 	active ENUM('Si','No')
 );
+
+ALTER TABLE equipo ADD CONSTRAINT fk_tipoequipo FOREIGN KEY (tipoequipo) REFERENCES tipoequipo(id);
