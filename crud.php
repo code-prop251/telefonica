@@ -2,7 +2,8 @@
 
     require_once 'conexion.php';
 
-    $sql = "SELECT * FROM equipos";
+    $sql = "SELECT e.id, e.serial, t.nombre, e.fecha FROM equipo e
+            JOIN tipoequipo AS t ON t.id = e.tipoequipo";
     $res = connect()->query($sql);
     $count = mysqli_num_rows($res);
 
