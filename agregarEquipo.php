@@ -1,3 +1,11 @@
+<?php
+
+    require_once 'conexion.php';
+    $sql = "SELECT id, nombre FROM tipoequipo WHERE active = 'Si'";
+    $res = connect()->query($sql);
+    $count = mysqli_num_rows($res);
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +25,21 @@
                 <label for="">Serial:</label>
                 <input type="number" name="serial" required>
                 <label for="">Tipo de equipo:</label>
-                <input type="text" name="tipo" required>
+                <select name="tipo" required>
+                <?php
+                    if($count == 0){
+                ?>
+                    <option value="" disabled>No hay opciones</option>
+                <?php
+                    }else{
+                        while($data = mysqli_fetch_array($res)){
+                ?>
+                    <option value="<?= $data[0] ?>"><?= $data[1] ?></option>
+                <?php
+                        }
+                    }
+                ?>
+                </select>
                 <label for="">Fecha de vencimiento:</label>
                 <input type="date" name="fecha" id="" value="" required>
                 <input type="submit" value="Guardar">
