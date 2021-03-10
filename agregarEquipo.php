@@ -21,7 +21,7 @@
         </div>
         <div >
             <p id="message"></p>
-            <form action="equipos.php?action=add" method="POST" style="display: flex; flex-direction: column;">
+            <form action="equipos.php?action=add" method="POST" style="display: flex; flex-direction: column;" enctype="multipart/form-data">
                 <label for="">Serial:</label>
                 <input type="number" name="serial" required>
                 <label for="">Tipo de equipo:</label>
@@ -32,6 +32,7 @@
                     <option value="" disabled>No hay opciones</option>
                 <?php
                     }else{
+                        echo "<option value='' disabled selected>Seleccione</option>";
                         while($data = mysqli_fetch_array($res)){
                 ?>
                     <option value="<?= $data[0] ?>"><?= $data[1] ?></option>
@@ -41,38 +42,47 @@
                 ?>
                 </select>
                 <label for="">Nombre</label>
-                <input type="text" name="nombre" id="">
+                <input type="text" name="nombre" id="" required>
                 <label for="">Fecha de vencimiento:</label>
                 <input type="date" name="fecha" id="" value="" required>
                 <label for="">Registro Certificacion</label>
-                <input type="file" name="file" id="">
+                <input type="file" name="file" id="" required>
                 <label for="">Auditado</label>
-                <label for="Si">Si</label><input type="radio" name="auditado" id="Si">
-                <label for="No">No</label><input type="radio" name="auditado" id="No">
+                <select name="auditado" id="aud" required>
+                    <option value="" disabled selected>Seleccione</option>
+                    <option value="0">Si</option>
+                    <option value="1">No</option>
+                </select>
                 <div class="adSi" style="display: flex; flex-direction: column;">
                     <label for="">Fecha auditoria</label>
-                    <input type="date" name="fechaAuditoria" id="">
+                    <input type="date" name="fechaAuditoria" id="fechaA" required>
                     <label for="">Estado</label>
-                    <textarea name="estado" id="" cols="30" rows="10"></textarea>
+                    <textarea name="estado" id="estado" cols="30" rows="10" required></textarea>
                 </div>
                 <label for="">Equipo calibrado</label>
-                <label for="Si">Si</label><input type="radio" name="calibrado" id="Si">
-                <label for="No">No</label><input type="radio" name="calibrado" id="No">
+                <select name="calibrado" id="cal" required>
+                    <option value="" disabled selected>Seleccione</option>
+                    <option value="0">Si</option>
+                    <option value="1">No</option>
+                </select>
                 <input type="submit" value="Guardar">
             </form>
         </div>
     </div>
     <script>
-        let si = document.querySelector('#Si');
-        let no = document.querySelector('#No');
+        let aud = document.querySelector('#aud');
         let adSi = document.querySelector('.adSi');
 
-        si.addEventListener('click', () => {
-            adSi.style.display = "flex";
-        });
-
-        no.addEventListener('click', () => {
-            adSi.style.display = "none";
+        aud.addEventListener('change', () => {
+            if(aud.value == 0){
+                adSi.style.display = "flex";
+                document.querySelector('#fechaA').setAttribute('required','true');
+                document.querySelector('#estado').setAttribute('required','true');
+            }else{
+                document.querySelector('#fechaA').removeAttribute('required');
+                document.querySelector('#estado').removeAttribute('required');
+                adSi.style.display = "none";
+            }
         });
     </script>
 </body>

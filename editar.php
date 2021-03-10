@@ -4,12 +4,13 @@
 
     $id = base64_decode($_GET['edit']);
 
-    $sql = "SELECT e.id, e.serial, t.nombre, e.fecha FROM equipo e
+    $sql = "SELECT e.id, e.serial, t.nombre, e.fecha, e.fechaAuditoria, e.estado FROM equipo e
             JOIN tipoequipo AS t ON t.id = e.tipoequipo where e.id = $id";
     $res = connect()->query($sql);
-    $data = mysqli_fetch_array($res);
+    $datas = mysqli_fetch_array($res);
 
-    $date = substr($data[3], 0, 10);
+    $date = substr($datas[3], 0, 10);
+    $dateA = substr($datas[4], 0, 10);
 
 ?>
 
@@ -28,9 +29,9 @@
         </div>
         <div>
             <p id="message"></p>
-            <form action="equipos.php?action=edit&id=<?= $_GET['edit']?>" method="POST">
+            <form action="equipos.php?action=edit&id=<?= $_GET['edit']?>" method="POST" style="display: flex; flex-direction: column;">
                 <label for="">Serial:</label>
-                <input type="number" name="serial" value='<?= $data[1] ?>' required>
+                <input type="number" disabled name="serial" value='<?= $datas[1] ?>' required>
                 <label for="">Tipo de equipo:</label>
                 <select name="tipo" required>
                 <?php
@@ -51,8 +52,14 @@
                     }
                 ?>
                 </select>
+                <label for="">Nombre</label>
+                <input type="text" name="nombre" id="" value='<?= $datas[2] ?>' required>
                 <label for="">Fecha de vencimiento:</label>
                 <input type="date" name="fecha" id="" value='<?= $date ?>' required>
+                <label for="">Fecha auditoria</label>
+                    <input type="date" name="fechaAuditoria" id="fechaA" required value='<?= $dateA ?>'>
+                    <label for="">Estado</label>
+                    <textarea name="estado" id="estado" cols="30" rows="10" required><?= $datas[5] ?></textarea>
                 <input type="submit" value="Guardar">
             </form>
         </div>

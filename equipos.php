@@ -6,7 +6,13 @@
 
     switch ($_GET['action']){
         case 'add':
-                $sql = "INSERT INTO equipo(serial,tipoEquipo,fecha) VALUES('$_POST[serial]',$_POST[tipo],'$_POST[fecha]')";
+                $fechaA = 'NUll';
+                if($_POST['fechaAuditoria'] != ''){
+                    $fechaA = $_POST['fechaAuditoria'];
+                }else{
+                    $fechaA;
+                }
+                $sql = "INSERT INTO equipo(serial,tipoEquipo,nombre,estado,fecha,fechaAuditoria) VALUES('$_POST[serial]',$_POST[tipo],'$_POST[nombre]','$_POST[estado]','$_POST[fecha]', $fechaA)";
                 if(connect()->query($sql)){
                     $_SESSION["message"] = "<p style='color: green; font-weight: bold;'>Registrado con exito.</p>";
                 }else{
@@ -15,7 +21,7 @@
                 header("Location: crud.php");
             break;
         case 'edit':
-                $sql = "UPDATE equipo SET serial='$_POST[serial]', tipoEquipo='$_POST[tipo]', fecha='$_POST[fecha]' WHERE id = " . base64_decode($_GET['id']);
+                $sql = "UPDATE equipo SET tipoEquipo='$_POST[tipo]',nombre = '$_POST[nombre]',estado = '$_POST[estado]', fecha='$_POST[fecha]', fechaAuditoria = '$_POST[fechaAuditoria]' WHERE id = " . base64_decode($_GET['id']);
                 if(connect()->query($sql)){
                     $_SESSION['message'] = "<p style='color: green; font-weight: bold;'>Actualizado con exito.</p>";
                 }else{
