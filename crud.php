@@ -2,7 +2,7 @@
 
     require_once 'conexion.php';
 
-    $sql = "SELECT e.id, e.serial, t.nombre, e.fecha FROM equipo e
+    $sql = "SELECT e.id, e.serial, t.nombre, e.nombre, e.fecha, e.registroCertificacion FROM equipo e
             JOIN tipoequipo AS t ON t.id = e.tipoequipo";
     $res = connect()->query($sql);
     $count = mysqli_num_rows($res);
@@ -36,7 +36,9 @@
                     <tr>
                         <td>Serial</td>
                         <td>Tipo OT</td>
+                        <td>Nombre Equipo</td>
                         <td>Fecha certificado</td>
+                        <td>Registro Certificacion</td>
                         <td>accion</td>
                     </tr>
                 </thead>
@@ -47,10 +49,12 @@
                                 echo "<tr><td>". $data[1] ."</td>"
                                     ."<td>".$data[2]."</td>"
                                     ."<td>".$data[3]."</td>"
+                                    ."<td>".$data[4]."</td>"
+                                    ."<td><a target='_BLANK' href='uploads/equipos/".$data[5].".pdf'>Ver Documento</a></td>"
                                     ."<td><a href='editar.php?edit=".base64_encode($data[0])."'>Actualizar</a><br><a href='equipos.php?action=del&id=".base64_encode($data[0])."'>Eliminar</a></td><tr>";
                             }
                         }else{
-                            echo "<tr><td colspan='4' style='text-align: center;'>No existen datos</td></tr>";
+                            echo "<tr><td colspan='7' style='text-align: center;'>No existen datos</td></tr>";
                         }
                     
                     ?>
