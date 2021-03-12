@@ -4,7 +4,7 @@
 
     $id = base64_decode($_GET['edit']);
 
-    $sql = "SELECT e.id, e.serial, t.nombre, e.fecha, e.fechaAuditoria, e.estado FROM equipo e
+    $sql = "SELECT e.id, e.serial, t.nombre, e.fecha, e.fechaAuditoria, e.estado, e.revision FROM equipo e
             JOIN tipoequipo AS t ON t.id = e.tipoequipo where e.id = $id";
     $res = connect()->query($sql);
     $datas = mysqli_fetch_array($res);
@@ -60,6 +60,8 @@
                     <input type="date" name="fechaAuditoria" id="fechaA" required value='<?= $dateA ?>'>
                     <label for="">Estado</label>
                     <textarea name="estado" id="estado" cols="30" rows="10" required><?= $datas[5] ?></textarea>
+                    <label for="">Revisión de la carpeta del equipo</label>
+                    <textarea name="revision" id="revision" cols="30" rows="10"><?= $datas[6] ?></textarea>
                 <input type="submit" value="Guardar">
             </form>
         </div>

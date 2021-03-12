@@ -9,17 +9,20 @@
 
                 // Archivo Registro certificación
                 $file = $_FILES['file'];
-                $nameFile = base64_encode(substr($file['name'],0,-4));
 
-                $path = 'uploads/equipos/';
+                if($file['size'] > 0){
+                    $nameFile = base64_encode(substr($file['name'],0,-4));
 
-                if(!is_dir($path)){
-                    mkdir($path, 0777, true);
+                    $path = 'uploads/equipos/';
+
+                    if(!is_dir($path)){
+                        mkdir($path, 0777, true);
+                    }
+
+                    $pathFile = $path.basename($nameFile.'.pdf');
+
+                    move_uploaded_file($file['tmp_name'], $pathFile);
                 }
-
-                $pathFile = $path.basename($nameFile.'.pdf');
-
-                move_uploaded_file($file['tmp_name'], $pathFile);
 
                 // fecha auditoria
                 $fechaA = 'null';
@@ -28,7 +31,8 @@
                 }else{
                     $fechaA;
                 }
-                $sql = "INSERT INTO equipo(serial,tipoEquipo,nombre,estado,fecha,fechaAuditoria, registroCertificacion) VALUES('$_POST[serial]',$_POST[tipo],'$_POST[nombre]','$_POST[estado]','$_POST[fecha]', $fechaA, '$nameFile')";
+                
+                $sql = "INSERT INTO equipo(serial,tipoEquipo,nombre,estado,revision,fecha,fechaAuditoria, registroCertificacion) VALUES('$_POST[serial]',$_POST[tipo],'$_POST[nombre]','$_POST[estado]','$_POST[revision]','$_POST[fecha]', $fechaA, '$nameFile')";
                 if(connect()->query($sql)){
                     $_SESSION["message"] = "<p style='color: green; font-weight: bold;'>Registrado con exito.</p>";
                 }else{
@@ -37,7 +41,7 @@
                 header("Location: crud.php");
             break;
         case 'edit':
-                $sql = "UPDATE equipo SET tipoEquipo='$_POST[tipo]',nombre = '$_POST[nombre]',estado = '$_POST[estado]', fecha='$_POST[fecha]', fechaAuditoria = '$_POST[fechaAuditoria]' WHERE id = " . base64_decode($_GET['id']);
+                $sql = "UPDATE equipo SET tipoEquipo='$_POST[tipo]',nombre = '$_POST[nombre]',estado = '$_POST[estado]',revision = '$_POST[revision]', fecha='$_POST[fecha]', fechaAuditoria = '$_POST[fechaAuditoria]' WHERE id = " . base64_decode($_GET['id']);
                 if(connect()->query($sql)){
                     $_SESSION['message'] = "<p style='color: green; font-weight: bold;'>Actualizado con exito.</p>";
                 }else{

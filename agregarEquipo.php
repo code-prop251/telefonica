@@ -46,7 +46,7 @@
                 <label for="">Fecha de vencimiento:</label>
                 <input type="date" name="fecha" id="" value="" required>
                 <label for="">Registro Certificacion</label>
-                <input type="file" name="file" id="" required>
+                <input type="file" name="file" id="file">
                 <label for="">Auditado</label>
                 <select name="auditado" id="aud" required>
                     <option value="" disabled selected>Seleccione</option>
@@ -58,13 +58,18 @@
                     <input type="date" name="fechaAuditoria" id="fechaA" required>
                     <label for="">Estado</label>
                     <textarea name="estado" id="estado" cols="30" rows="10" required></textarea>
+                    <label for="">Revisión de la carpeta del equipo</label>
+                    <textarea name="revision" id="revision" cols="30" rows="10"></textarea>
                 </div>
                 <label for="">Equipo calibrado</label>
-                <select name="calibrado" id="cal" required>
-                    <option value="" disabled selected>Seleccione</option>
-                    <option value="0">Si</option>
-                    <option value="1">No</option>
-                </select>
+
+                <div class="caSi">
+                    <select name="calibrado" id="cal" required>
+                        <option value="" disabled selected>Seleccione</option>
+                        <option value="0">Si</option>
+                        <option value="1">No</option>
+                    </select>
+                </div>
                 <input type="submit" value="Guardar">
             </form>
         </div>
@@ -72,6 +77,10 @@
     <script>
         let aud = document.querySelector('#aud');
         let adSi = document.querySelector('.adSi');
+        let file = document.querySelector('#file');
+        let caSi = document.querySelector('.caSi');
+
+        
 
         aud.addEventListener('change', () => {
             if(aud.value == 0){
